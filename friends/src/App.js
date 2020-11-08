@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Link, Switch, useHistory } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 
 import PrivateRoute from "./components/PrivateRoute";
 
@@ -9,7 +9,7 @@ import Public from "./components/Public";
 import Protected from "./components/Protected";
 
 function App() {
-	const history = useHistory();
+	// const history = useHistory();
 	// const login = useState()
 
 	return (
@@ -28,7 +28,7 @@ function App() {
 						<Public />
 					</Route>
 					<Route path="/login">
-						<Login history={history} />
+						<Login />
 					</Route>
 					<PrivateRoute path="/protected" component={Protected} />
 				</Switch>

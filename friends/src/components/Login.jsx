@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 import { axiosWithAuth } from "../utils/axiosWithAuth";
-
+import { useHistory } from "react-router-dom";
 
 const Login = props => {
 	const [credentials, setCredentials] = useState({ username: "", password: "" });
+	const history = useHistory();
 
 	const login = (e) => {
 		e.preventDefault();
 		axiosWithAuth().post("http://localhost:5000/api/login", credentials)
 			.then(res => {
-				window.localStorage.setItem("token", res.data.token);
-				props.history.push("/protected");
+				console.log(res.data);
+				window.localStorage.setItem("token", res.data.payload);
+				history.push("/protected");
 			}).catch(err => console.log(err));
 	}
 
