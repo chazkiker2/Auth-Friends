@@ -7,6 +7,7 @@ import './App.css';
 import Login from "./components/Login";
 import FriendsList from "./components/FriendsList";
 import Friend from "./components/Friend";
+import AddFriendForm from "./components/AddFriendForm";
 
 function App() {
 	const logout = () => {
@@ -20,7 +21,8 @@ function App() {
 				<header>
 					<nav>
 						<Link to="/login">Login</Link>
-						<Link to="/friends">FriendsList Page</Link>
+						<Link to="/friends">Friends List</Link>
+						<Link to="/add-friend">Add New Friend</Link>
 					</nav>
 					<button onClick={logout}>Logout</button>
 				</header>
@@ -33,6 +35,7 @@ function App() {
 					</Route>
 					<PrivateRoute path="/friends/:id" component={Friend} />
 					<PrivateRoute path="/friends" component={FriendsList} />
+					<PrivateRoute path="/add-friend" component={AddFriendForm} />
 				</Switch>
 			</div>
 

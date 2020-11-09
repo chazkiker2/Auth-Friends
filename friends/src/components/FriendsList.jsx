@@ -15,7 +15,13 @@ const FriendsList = props => {
 				console.log(err);
 			});
 	}, []);
+	const handleDelete = (fId) => {
+		axiosWithAuth().delete(`http://localhost:5000/api/friends/${fId}`)
+			.then(res => {
+				setFriends(res.data);
+			});
 
+	}
 
 	return (
 		<div>
@@ -27,6 +33,7 @@ const FriendsList = props => {
 						<p>{friend.age} years old</p>
 						<p>{friend.email}</p>
 						<Link to={`/friends/${friend.id}`}>Edit</Link>
+						<button onClick={() => handleDelete(friend.id)}>Delete</button>
 					</React.Fragment>
 				)
 			})}
