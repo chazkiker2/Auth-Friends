@@ -11,14 +11,10 @@ function App() {
 	const history = useHistory();
 	// const login = useState()
 
-
 	const logout = () => {
 		axiosWithAuth().post("http://localhost:5000/api/logout")
-			.then(res => {
-				console.log(res);
-				window.localStorage.setItem("token", res.data.payload);
-				// history.push("/login");
-			})
+		window.localStorage.removeItem("token");
+		// history.push("/login");
 	}
 
 	return (
