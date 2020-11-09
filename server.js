@@ -75,15 +75,11 @@ app.post('/api/login', (req, res) => {
 });
 
 app.post("/api/logout", authenticator, (req, res) => {
-	// if (req.loggedIn === true) {
 	req.loggedIn = false;
 	res.status(200);
-	// } else {
-	// 	res.status(401).json({ error: "User must be logged in to log out" });
-	// }
 })
 
-app.get('/api/friends', (req, res) => {
+app.get('/api/friends', authenticator, (req, res) => {
 	setTimeout(() => {
 		res.send(friends);
 	}, 1000);
