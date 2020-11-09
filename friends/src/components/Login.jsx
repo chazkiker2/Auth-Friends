@@ -10,10 +10,9 @@ const Login = props => {
 		e.preventDefault();
 		axiosWithAuth().post("http://localhost:5000/api/login", credentials)
 			.then(res => {
-				console.log(res.data);
 				window.localStorage.setItem("token", res.data.payload);
-				history.push("/protected");
-			}).catch(err => console.log(err));
+				history.push("/friends");
+			});
 	}
 
 	const handleChange = e => {

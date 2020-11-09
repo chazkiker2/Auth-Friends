@@ -1,36 +1,44 @@
-import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
-
+import { BrowserRouter as Router, Redirect, Route, Link, Switch, useHistory } from 'react-router-dom';
+import { axiosWithAuth } from "./utils/axiosWithAuth";
 import PrivateRoute from "./components/PrivateRoute";
 
 import './App.css';
 
 import Login from "./components/Login";
-import Public from "./components/Public";
-import Protected from "./components/Protected";
+import FriendsList from "./components/FriendsList";
 
 function App() {
-	// const history = useHistory();
+	const history = useHistory();
 	// const login = useState()
+
+
+	const logout = () => {
+		axiosWithAuth().post("http://localhost:5000/api/logout")
+			.then(res => {
+				console.log(res);
+				window.localStorage.setItem("token", res.data.payload);
+				// history.push("/login");
+			})
+	}
 
 	return (
 		<Router>
 			<div className="App">
-				<ul>
-					<li>
-						<Link to="/public">Public Page</Link>
-					</li>
-					<li>
-						<Link to="/protected">Protected Page</Link>
-					</li>
-				</ul>
+				<header>
+					<nav>
+						<Link to="/login">Login</Link>
+						<Link to="/friends">FriendsList Page</Link>
+					</nav>
+					<button onClick={logout}>Logout</button>
+				</header>
 				<Switch>
-					<Route path="/public">
-						<Public />
+					<Route exact path="/">
+						<Redirect to="/login" />
 					</Route>
 					<Route path="/login">
 						<Login />
 					</Route>
-					<PrivateRoute path="/protected" component={Protected} />
+					<PrivateRoute path="/friends" component={FriendsList} />
 				</Switch>
 			</div>
 
