@@ -9,13 +9,19 @@ import FriendsList from "./components/FriendsList";
 import Friend from "./components/Friend";
 import AddFriendForm from "./components/AddFriendForm";
 import { theme } from "./theme/index";
-import { ThemeProvider } from "styled-components";
+import styled, { ThemeProvider } from "styled-components";
+
+const AppContainer = styled.div`
+	min-height: 100vh;
+	max-width: 100vw;
+	background-color: ${pr => pr.theme.honeydew};
+`;
 
 const App = (props) => {
 	return (
 		<ThemeProvider theme={theme}>
 			<Router>
-				<div className="App">
+				<AppContainer className="App">
 					<Header />
 					<Switch>
 						<Route exact path="/">
@@ -28,7 +34,7 @@ const App = (props) => {
 						<PrivateRoute path="/friends" component={FriendsList} />
 						<PrivateRoute path="/add-friend" component={AddFriendForm} />
 					</Switch>
-				</div>
+				</AppContainer>
 			</Router>
 		</ThemeProvider>
 	);

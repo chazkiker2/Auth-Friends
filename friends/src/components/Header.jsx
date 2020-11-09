@@ -8,9 +8,10 @@ const SHeader = styled.header`
 	color: ${pr => pr.theme.honeydew};
 	display: flex;
 	flex-flow: row wrap;
-	justify-content: space-around;
+	justify-content: space-between;
 	align-items: center;
 	h1 {
+		margin: 1rem;
 		font-size: 3rem;
 		font-weight: 600;
 	}
@@ -39,6 +40,8 @@ const SHeader = styled.header`
 		background-color: ${pr => pr.theme.celadonBlue};
 		display: inline-block;
 		width: 10rem;
+		font-size: 1rem;
+		text-transform: uppercase;
 		text-align: center;
 		margin: 1rem;
 		padding: 1rem;
