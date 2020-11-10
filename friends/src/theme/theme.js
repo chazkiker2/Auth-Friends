@@ -1,3 +1,4 @@
+import { css } from "styled-components";
 import theme from "styled-theming";
 
 export const backgroundColor = theme('mode', {
@@ -20,8 +21,54 @@ export const buttonTextColor = theme('mode', {
 	dark: '#222'
 });
 
+// export const createClickerStyles = (background, color, { backgroundHover, colorHover } = {}) => {
+export const createClickerStyles = (background, color, backgroundHover, colorHover) => {
+	// let backgroundOnHover = backgroundHover ? backgroundHover : color;
+	// let colorOnHover = colorHover ? colorHover : background;
+	const colors = {
+		background,
+		color,
+		backgroundHover,
+		colorHover,
+	};
+
+	return css`
+			background-color: ${colors.background};
+			color: ${colors.color};
+			transition: all 0.4s ease;
+			&:hover {
+				cursor: pointer;
+				background-color: ${colors.backgroundHover};
+				color: ${colors.colorHover};
+				transition: all 0.4s ease;
+			}
+		`;
+}
+
+export const createBackgroundStyles = (lightBackground, lightColor, darkBackground, darkColor) => {
+	return {
+		light: css`
+			background-color: ${lightBackground};
+			color: ${lightColor};
+		`,
+		dark: css`
+			background-color: ${darkBackground};
+			color: ${darkColor};
+		`,
+	}
+}
+
+const red = "#E63946";
+const honeydew = "#F1FAEE";
+const powderblue = "#A8DADC";
+const celadonblue = "#458B9D";
+const prussianblue = "#1D3557";
+export const colorSelection = {
+	red, honeydew, powderblue, celadonblue, prussianblue,
+}
+
 const mainTheme = {
-	backgroundColor, 
+	backgroundColor,
 	textColor,
 	buttonBackgroundColor,
 	buttonTextColor,

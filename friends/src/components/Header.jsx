@@ -2,95 +2,30 @@ import React from "react";
 import { axiosWithAuth } from "../utils/axiosWithAuth";
 import { Link } from "react-router-dom";
 import { useTheme } from "./ThemeContext";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import theme from "styled-theming";
 import PropTypes from 'prop-types';
+import { createClickerStyles, createBackgroundStyles, colorSelection } from "../theme/theme";
 
-const red = "#E63946";
-const honeydew = "#F1FAEE";
-const powderblue = "#A8DADC";
-const celadonblue = "#458B9D";
-const prussianblue = "#1D3557";
+const { red, honeydew, celadonblue, prussianblue } = colorSelection;
 
-const headerStyles = theme("mode", {
-	light: css`
-		background-color: ${prussianblue};
-		color: ${honeydew};
-	`,
-	dark: css``,
-})
+const headerStyles = theme("mode",
+	createBackgroundStyles(prussianblue, honeydew, "black", honeydew)
+);
 
 const linkStyles = theme("mode", {
-	light: css`
-		color: ${honeydew};
-		background-color: ${celadonblue};
-		&:hover {
-				background-color: ${honeydew};
-				color: ${celadonblue};
-				transition: all 0.5s ease-in-out;
-			}
-			transition: all 0.5s ease-in-out;
-	`,
-	dark: css`
-		color: ${honeydew};
-		background-color: ${celadonblue};
-		&:hover {
-				background-color: ${honeydew};
-				color: ${celadonblue};
-				transition: all 0.5s ease-in-out;
-			}
-			transition: all 0.5s ease-in-out;
-	`,
+	light: createClickerStyles(celadonblue, honeydew, honeydew, celadonblue),
+	dark: createClickerStyles(celadonblue, honeydew, honeydew, celadonblue),
 });
 
 const buttonStyles = theme.variants("mode", "variant", {
 	default: {
-		light: css`
-			background-color: ${honeydew};
-			color: ${prussianblue};
-			transition: all 0.4s ease;
-			&:hover {
-				cursor: pointer;
-				background-color: ${prussianblue};
-				color: ${honeydew};
-				transition: all 0.4s ease;
-			}
-		`,
-		dark: css`
-			background-color: darkslategray;
-			color: ${honeydew};
-			transition: all 0.4s ease;
-			&:hover {
-				cursor: pointer;
-				background-color: ${honeydew};
-				color: darkslategray;
-				transition: all 0.4s ease;
-			}
-		`,
+		light: createClickerStyles(honeydew, prussianblue, prussianblue, honeydew),
+		dark: createClickerStyles("darkslategray", honeydew, honeydew, "darkslategray"),
 	},
 	warning: {
-		light: css`
-			background-color: ${honeydew};
-			color: ${prussianblue};
-			transition: all 0.4s ease;
-			&:hover {
-				cursor: pointer;
-				background-color: ${red};
-				color: ${honeydew};
-				transition: all 0.4s ease;
-			}
-		`,
-		dark: css`
-			background-color: darkslategray;
-			color: ${honeydew};
-			transition: all 0.4s ease;
-			&:hover {
-				cursor: pointer;
-				background-color: ${red};
-				color: ${honeydew};
-				transition: all 0.4s ease;
-			}
-		`,
+		light: createClickerStyles(honeydew, prussianblue, red, honeydew),
+		dark: createClickerStyles("darkslategray", honeydew, red, honeydew),
 	}
 })
 
@@ -139,7 +74,7 @@ Button.defaultProps = {
 	variant: "default",
 }
 
-const Header = props => {
+const Header = () => {
 	const themeToggle = useTheme();
 
 	const logout = () => {

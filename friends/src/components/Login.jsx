@@ -1,47 +1,17 @@
 import React, { useState } from "react";
 import { axiosWithAuth } from "../utils/axiosWithAuth";
 import { useHistory } from "react-router-dom";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import theme from "styled-theming";
+import { createClickerStyles, createBackgroundStyles, colorSelection } from "../theme/theme";
 
-const red = "#E63946";
-const honeydew = "#F1FAEE";
-const powderblue = "#A8DADC";
-const celadonblue = "#458B9D";
-const prussianblue = "#1D3557";
+const { honeydew, powderblue, celadonblue, prussianblue } = colorSelection;
 
-const loginStyles = theme("mode", {
-	light: css`
-		background-color: ${powderblue};
-	`,
-	dark: css`
-		background-color: darkslategray;
-	`,
-});
+const loginStyles = theme("mode", createBackgroundStyles(powderblue, prussianblue, "darkslategray", honeydew));
 
 const buttonStyles = theme("mode", {
-	light: css`
-			cursor: pointer;
-			background-color: ${honeydew};
-			color: ${prussianblue};
-			transition: all 0.4s ease;
-			&:hover {
-				cursor: pointer;
-				background-color: ${celadonblue};
-				color: ${honeydew};
-				transition: all 0.4s ease;
-			}
-		`,
-	dark: css`
-			background-color: black;
-			color: ${honeydew};
-			transition: all 0.4s ease;
-			&:hover {
-				cursor: pointer;
-				background-color: ${celadonblue};
-				transition: all 0.4s ease;
-			}
-	`,
+	light: createClickerStyles(honeydew, prussianblue, celadonblue, honeydew),
+	dark: createClickerStyles("black", honeydew, celadonblue, honeydew),
 });
 
 const SLogin = styled.div`
@@ -51,8 +21,6 @@ const SLogin = styled.div`
 	border: 0;
 	border-radius: 50px;
 	width: 80%;
-
-	/* background-color: ${pr => pr.theme.powderBlue}; */
 	form {
 		height: 100%;
 		display: flex;

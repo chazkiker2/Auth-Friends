@@ -1,17 +1,28 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
 import { axiosWithAuth } from "../utils/axiosWithAuth";
 import styled from "styled-components";
+import theme from "styled-theming";
+
+import { createClickerStyles, createBackgroundStyles, colorSelection } from "../theme/theme";
+
+const { honeydew, powderblue, celadonblue, prussianblue } = colorSelection;
+
+const buttonStyles = theme("mode",
+	{
+		light: createClickerStyles(honeydew, prussianblue, celadonblue, honeydew),
+		dark: createClickerStyles("#222", honeydew, celadonblue, honeydew),
+	}
+)
+
+const formStyles = theme("mode", createBackgroundStyles(powderblue, prussianblue, "darkslategray", honeydew));
 
 const SForm = styled.div`
+	${formStyles};
 	border: 0;
 	width: 80%;
 	margin: 3rem auto;
-	/* height: 120px; */
 	height: 10rem;
-	/* padding: 2rem; */
 	border-radius: 50px;
-	background-color: ${pr => pr.theme.powderBlue};
 	display: flex;
 	flex-flow: column nowrap;
 	justify-content: space-evenly;
@@ -19,7 +30,6 @@ const SForm = styled.div`
 	h1 {
 		font-size: 1.5rem;
 		font-weight: 600;
-		/* padding: 1rem; */
 	}
 	form {
 		height: 100%;
@@ -38,6 +48,7 @@ const SForm = styled.div`
 		}
 
 		button {
+			${buttonStyles};
 			display: inline-block;
 			border: 0;
 			width: 120px;
@@ -45,21 +56,14 @@ const SForm = styled.div`
 			border-radius: 5px;
 			font-size: 1.02rem;
 			text-transform: uppercase;
-			&:hover {
-				cursor: pointer;
-				background-color: ${pr => pr.theme.celadonBlue};
-				color: ${pr => pr.theme.honeydew};
-				transition: all 0.4s ease;
-			}
-			transition: all 0.4s ease;
-		}
+	}
 	}
 `;
 
 const Friend = props => {
-	const location = useLocation();
-	const [status, setStatus] = useState("idle");
-	const [matchId, setMatchId] = useState(Number(props.match.params.id));
+	// const location = useLocation();
+	// const [status, setStatus] = useState("idle");
+	const matchId = useState(Number(props.match.params.id));
 	const [data, setData] = useState({});
 	useEffect(() => {
 		axiosWithAuth().get(`http://localhost:5000/api/friends/${matchId}`)

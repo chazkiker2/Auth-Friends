@@ -1,90 +1,38 @@
 import React, { useState, useEffect } from "react";
 import { axiosWithAuth } from "../utils/axiosWithAuth";
 import { Link } from "react-router-dom";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import theme from "styled-theming";
 import PropTypes from 'prop-types';
-
-const red = "#E63946";
-const honeydew = "#F1FAEE";
-const powderblue = "#A8DADC";
-const celadonblue = "#458B9D";
-const prussianblue = "#1D3557";
+import { createClickerStyles, createBackgroundStyles, colorSelection } from "../theme/theme";
+const { red, honeydew, powderblue, celadonblue, prussianblue } = colorSelection;
 
 const addNewFriendStyles = theme("mode", {
-	light: css`
-					color: ${honeydew};
-			background-color: ${celadonblue};
-			&:hover {
-				cursor: pointer;
-				background-color: ${honeydew};
-				color: ${celadonblue};
-				transition: all 0.5s ease-in-out;
-			}
-			transition: all 0.5s ease-in-out;
-	`,
-	dark: css`
-			color: ${honeydew};
-			background-color: ${celadonblue};
-			&:hover {
-				cursor: pointer;
-				background-color: #222;
-				color: ${powderblue};
-				transition: all 0.5s ease-in-out;
-			}
-			transition: all 0.5s ease-in-out;
-	`,
+	light: createClickerStyles(celadonblue, honeydew, honeydew, celadonblue),
+	dark: createClickerStyles(celadonblue, honeydew, "#222", powderblue),
 });
 
 const linkStyles = theme("mode", {
-	light: css`
-		color: ${honeydew};
-		background-color: ${celadonblue};
-		&:hover {
-				background-color: ${honeydew};
-				color: ${celadonblue};
-				transition: all 0.5s ease-in-out;
-			}
-			transition: all 0.5s ease-in-out;
-	`,
-	dark: css`
-		color: ${honeydew};
-		background-color: ${celadonblue};
-		&:hover {
-				background-color: ${honeydew};
-				color: ${celadonblue};
-				transition: all 0.5s ease-in-out;
-			}
-			transition: all 0.5s ease-in-out;
-	`,
+	light: createClickerStyles(celadonblue, honeydew, honeydew, celadonblue),
+	dark: createClickerStyles(celadonblue, honeydew, honeydew, celadonblue),
 });
 
-const listStyles = theme("mode", {
-	light: css`
-	background-color: ${powderblue};
-	`,
-	dark: css`
-		background-color: darkslategray;
-	`,
-})
+const listStyles = theme("mode", createBackgroundStyles(powderblue, prussianblue, "darkslategray", honeydew));
 
 const ListContainer = styled.div`
 	${listStyles};
 	display: flex;
 	width: 90%;
 	margin: 2rem auto;
-	
 	border-radius: 50px;
 	flex-flow: column nowrap;
 	justify-content: space-evenly;
 	align-items: center;
 	text-align: center;
 	border: 0;
-	/* padding: 2rem; */
-	/* border: 1px solid black; */
 	h1 {
-			font-size: 2rem;
-			margin: 10px 0;
+		font-size: 2rem;
+		margin: 10px 0;
 	}
 	#add-friend {
 		${addNewFriendStyles};
@@ -108,16 +56,7 @@ const Gallery = styled.div`
 	align-content: space-evenly;
 `;
 
-const friendStyles = theme("mode", {
-	light: css`
-		color: ${honeydew};
-		background-color: ${prussianblue};	
-	`,
-	dark: css`
-		background-color: black;
-		color: ${honeydew};
-	`,
-})
+const friendStyles = theme("mode", createBackgroundStyles(prussianblue, honeydew, "black", honeydew));
 
 const SFriend = styled.div`
 	${friendStyles};
@@ -127,10 +66,8 @@ const SFriend = styled.div`
 	width: 260px;
 	height: 120px;
 	margin: 15px;
-	/* padding: 20px; */
 	justify-content: space-evenly;
 	align-items: center;
-
 	div.friend-details {
 		display: flex;
 		flex-flow: column nowrap;
@@ -167,11 +104,7 @@ const SFriend = styled.div`
 			${linkStyles};
 			border: 0;
 			height: 32px;
-			background-color: ${pr => pr.theme.celadonBlue};
-			color: ${pr => pr.theme.honeydew};
 			&:hover {
-				background-color: ${pr => pr.theme.honeydew};
-				color: ${pr => pr.theme.celadonBlue};
 				transition: all 0.4s ease;
 			}
 			transition: all 0.4s ease;
@@ -180,52 +113,12 @@ const SFriend = styled.div`
 `;
 const buttonStyles = theme.variants("mode", "variant", {
 	default: {
-		light: css`
-			background-color: ${honeydew};
-			color: ${prussianblue};
-			transition: all 0.4s ease;
-			&:hover {
-				cursor: pointer;
-				background-color: ${prussianblue};
-				color: ${honeydew};
-				transition: all 0.4s ease;
-			}
-		`,
-		dark: css`
-			background-color: darkslategray;
-			color: ${honeydew};
-			transition: all 0.4s ease;
-			&:hover {
-				cursor: pointer;
-				background-color: ${honeydew};
-				color: darkslategray;
-				transition: all 0.4s ease;
-			}
-		`,
+		light: createClickerStyles(honeydew, prussianblue, prussianblue, honeydew),
+		dark: createClickerStyles("darkslategray", honeydew, honeydew, "darkslategray"),
 	},
 	warning: {
-		light: css`
-			background-color: ${honeydew};
-			color: ${prussianblue};
-			transition: all 0.4s ease;
-			&:hover {
-				cursor: pointer;
-				background-color: ${red};
-				color: ${honeydew};
-				transition: all 0.4s ease;
-			}
-		`,
-		dark: css`
-			background-color: darkslategray;
-			color: ${honeydew};
-			transition: all 0.4s ease;
-			&:hover {
-				cursor: pointer;
-				background-color: ${red};
-				color: ${honeydew};
-				transition: all 0.4s ease;
-			}
-		`,
+		light: createClickerStyles(honeydew, prussianblue, red, honeydew),
+		dark: createClickerStyles("darkslategray", honeydew, red, honeydew),
 	}
 })
 
