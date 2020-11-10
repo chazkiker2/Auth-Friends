@@ -6,5 +6,3 @@ export const theme = {
 	celadonBlue: "#457b9d",
 	prussianBlue: "#1d3557",
 }
-
-//  theme;

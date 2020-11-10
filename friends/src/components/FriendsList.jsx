@@ -11,6 +11,7 @@ const ListContainer = styled.div`
 	border-radius: 50px;
 	flex-flow: column nowrap;
 	justify-content: space-evenly;
+	align-items: center;
 	text-align: center;
 	border: 0;
 	/* padding: 2rem; */
@@ -19,6 +20,25 @@ const ListContainer = styled.div`
 			font-size: 2rem;
 			margin: 10px 0;
 	}
+	#add-friend {
+			color: ${pr => pr.theme.honeydew};
+			background-color: ${pr => pr.theme.celadonBlue};
+			display: inline-block;
+			width: 15rem;
+			text-align: center;
+			margin: 1rem;
+			padding: 1rem;
+			white-space: nowrap;
+			text-decoration: none;
+			font-size: 1.2rem;
+			font-weight: 600;
+			&:hover {
+				background-color: ${pr => pr.theme.honeydew};
+				color: ${pr => pr.theme.celadonBlue};
+				transition: all 0.5s ease-in-out;
+			}
+			transition: all 0.5s ease-in-out;
+		}
 `;
 
 const Gallery = styled.div`
@@ -50,6 +70,7 @@ const SFriend = styled.div`
 			font-size: 1.3rem;
 			font-weight: 500;
 		}
+
 	}
 	div.friend-nav {
 		display: flex;
@@ -73,6 +94,7 @@ const SFriend = styled.div`
 			font-weight: 600;
 		}
 		Link, a {
+			height: 20px;
 			background-color: ${pr => pr.theme.celadonBlue};
 			color: ${pr => pr.theme.honeydew};
 			&:hover {
@@ -136,15 +158,17 @@ const FriendsList = props => {
 
 	return (
 		<ListContainer>
-			{/* <div className="header">
-			</div> */}
 			<h1>Friends List</h1>
+			<Link id="add-friend" to="/add-friend">Add New Friend</Link>
 			<Gallery>
-				{friends.length && friends.map(friend => {
-					return (
-						<FriendCard key={friend.id} friend={friend} handleDelete={handleDelete} />
-					)
-				})}
+				{friends.length > 0
+					? friends.map(friend => {
+						return (
+							<FriendCard key={friend.id} friend={friend} handleDelete={handleDelete} />
+						)
+					})
+					: <h2>Loading...</h2>
+				}
 			</Gallery>
 		</ListContainer>
 	)

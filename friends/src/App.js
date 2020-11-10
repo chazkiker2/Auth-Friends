@@ -17,26 +17,26 @@ const AppContainer = styled.div`
 	background-color: ${pr => pr.theme.honeydew};
 `;
 
+// <ThemeProvider theme={theme}>
+// </ThemeProvider>
 const App = (props) => {
 	return (
-		<ThemeProvider theme={theme}>
-			<Router>
-				<AppContainer className="App">
-					<Header />
-					<Switch>
-						<Route exact path="/">
-							<Redirect to="/login" />
-						</Route>
-						<Route path="/login">
-							<Login />
-						</Route>
-						<PrivateRoute path="/friends/:id" component={Friend} />
-						<PrivateRoute path="/friends" component={FriendsList} />
-						<PrivateRoute path="/add-friend" component={AddFriendForm} />
-					</Switch>
-				</AppContainer>
-			</Router>
-		</ThemeProvider>
+		<Router>
+			<AppContainer className="App">
+				<Header />
+				<Switch>
+					<Route exact path="/">
+						<Redirect to="/login" />
+					</Route>
+					<Route path="/login">
+						<Login />
+					</Route>
+					<PrivateRoute path="/friends/:id" component={Friend} />
+					<PrivateRoute path="/friends" component={FriendsList} />
+					<PrivateRoute path="/add-friend" component={AddFriendForm} />
+				</Switch>
+			</AppContainer>
+		</Router>
 	);
 }
 
