@@ -92,7 +92,6 @@ const buttonStyles = theme.variants("mode", "variant", {
 			}
 		`,
 	}
-
 })
 
 const SHeader = styled.header`

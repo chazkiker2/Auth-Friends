@@ -1,13 +1,14 @@
 import React, { useState, useContext } from "react";
 import styled, { ThemeProvider } from "styled-components";
 import mainTheme from "../theme/theme";
+import { useDarkMode } from "../hooks/useDarkMode";
 const { backgroundColor, textColor, buttonBackgroundColor, buttonTextColor } = mainTheme;
 
 const ThemeToggleContext = React.createContext();
 export const useTheme = () => useContext(ThemeToggleContext);
 
 export const MyThemeProvider = ({ children }) => {
-	const [themeState, setThemeState] = useState({
+	const [themeState, setThemeState] = useDarkMode({
 		mode: "light",
 	});
 
