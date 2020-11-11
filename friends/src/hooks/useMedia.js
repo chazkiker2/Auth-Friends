@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const useMedia = (queries, values, defaultValue) => {
+export const useMedia = (queries, values, defaultValue) => {
 	const mediaQueryList = queries.map(q => { return window.matchMedia(q) });
 
 	const getValue = () => {
@@ -11,5 +11,3 @@ const useMedia = (queries, values, defaultValue) => {
 	const value = useState(getValue);
 	return value;
 };
-
-export default useMedia;

@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react";
 import { axiosWithAuth } from "../utils/axiosWithAuth";
 import styled from "styled-components";
 import theme from "styled-theming";
-
+import { useLogin } from "../contexts/LoginContext";
 import { createClickerStyles, createBackgroundStyles, colorSelection } from "../theme/theme";
-
 const { honeydew, powderblue, celadonblue, prussianblue } = colorSelection;
 
 const buttonStyles = theme("mode",
@@ -14,7 +13,9 @@ const buttonStyles = theme("mode",
 	}
 )
 
-const formStyles = theme("mode", createBackgroundStyles(powderblue, prussianblue, "darkslategray", honeydew));
+const formStyles = theme("mode",
+	createBackgroundStyles(powderblue, prussianblue, "darkslategray", honeydew)
+);
 
 const SForm = styled.div`
 	${formStyles};
@@ -46,13 +47,13 @@ const SForm = styled.div`
 			justify-content: space-between;
 		}
 		}
-
 		button {
 			${buttonStyles};
 			display: inline-block;
 			border: 0;
 			width: 120px;
 			height: 25px;
+			margin: 0 1rem;
 			border-radius: 5px;
 			font-size: 1.02rem;
 			text-transform: uppercase;
@@ -61,14 +62,25 @@ const SForm = styled.div`
 `;
 
 const Friend = props => {
-	// const location = useLocation();
-	// const [status, setStatus] = useState("idle");
-	const matchId = useState(Number(props.match.params.id));
-	const [data, setData] = useState({});
+	const mId = props.match.params.id;
+	const { pushToFriends } = useLogin();
+	const [data, setData] = useState({
+		name: "",
+		email: "",
+		age: "",
+	});
 	useEffect(() => {
-		axiosWithAuth().get(`http://localhost:5000/api/friends/${matchId}`)
-			.then(res => setData(res.data));
-	}, [matchId])
+		let unmounted = false;
+		axiosWithAuth().get(`friends/${mId}`)
+			.then(res => {
+				if (!unmounted) {
+					setData(res.data)
+				}
+			});
+		return () => {
+			unmounted = true;
+		}
+	}, [mId])
 
 	const handleChange = (evt) => {
 		setData({
@@ -78,8 +90,15 @@ const Friend = props => {
 	}
 
 	const handleSubmit = (evt) => {
-		axiosWithAuth().put(`http://localhost:5000/api/friends/${matchId}`, data)
+		evt.preventDefault();
+		axiosWithAuth().put(`friends/${mId}`, data)
 			.then(res => setData(res));
+		pushToFriends();
+	}
+
+	const handleCancel = (evt) => {
+		evt.preventDefault();
+		pushToFriends();
 	}
 
 	return (
@@ -97,7 +116,10 @@ const Friend = props => {
 				<input type="age" name="age" value={data.age} onChange={handleChange} />
 					</label>
 				</div>
-				<button>Update</button>
+				<div>
+					<button>Update</button>
+					<button onClick={handleCancel}>Cancel</button>
+				</div>
 			</form>
 		</SForm>
 	)

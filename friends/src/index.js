@@ -4,12 +4,18 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { MyThemeProvider } from "./components/ThemeContext";
+import { LoginProvider } from "./contexts/LoginContext";
+import { BrowserRouter as Router } from "react-router-dom";
 
 
 ReactDOM.render(
 	<React.StrictMode>
 		<MyThemeProvider>
-			<App />
+			<Router>
+				<LoginProvider>
+					<App />
+				</LoginProvider>
+			</Router>
 		</MyThemeProvider>
 	</React.StrictMode>,
 	document.getElementById('root')

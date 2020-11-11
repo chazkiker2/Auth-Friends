@@ -130,7 +130,6 @@ const Button = styled.button`
 	font-size: 1rem;
 	text-transform: uppercase;
 	text-align: center;
-	/* margin: 1rem; */
 	padding: 1rem;
 	white-space: nowrap;
 	border: 0;
@@ -165,17 +164,18 @@ const FriendsList = props => {
 	const [friends, setFriends] = useState([]);
 
 	useEffect(() => {
-		axiosWithAuth().get("http://localhost:5000/api/friends")
+		axiosWithAuth().get("friends")
 			.then(res => {
-				console.log(res);
 				setFriends(res.data);
 			})
 			.catch(err => {
 				console.log(err);
+				console.log(err.message);
 			});
 	}, []);
+
 	const handleDelete = (fId) => {
-		axiosWithAuth().delete(`http://localhost:5000/api/friends/${fId}`)
+		axiosWithAuth().delete(`friends/${fId}`)
 			.then(res => {
 				setFriends(res.data);
 			});

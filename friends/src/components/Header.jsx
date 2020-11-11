@@ -1,34 +1,22 @@
+//dependencies
 import React from "react";
-import { axiosWithAuth } from "../utils/axiosWithAuth";
 import { Link } from "react-router-dom";
+//context
 import { useTheme } from "./ThemeContext";
+//styling dependencies
 import styled from "styled-components";
 import theme from "styled-theming";
 import PropTypes from 'prop-types';
 import { createClickerStyles, createBackgroundStyles, colorSelection } from "../theme/theme";
-
+//styling
 const { red, honeydew, celadonblue, prussianblue } = colorSelection;
-
 const headerStyles = theme("mode",
 	createBackgroundStyles(prussianblue, honeydew, "black", honeydew)
 );
-
 const linkStyles = theme("mode", {
 	light: createClickerStyles(celadonblue, honeydew, honeydew, celadonblue),
 	dark: createClickerStyles(celadonblue, honeydew, honeydew, celadonblue),
 });
-
-const buttonStyles = theme.variants("mode", "variant", {
-	default: {
-		light: createClickerStyles(honeydew, prussianblue, prussianblue, honeydew),
-		dark: createClickerStyles("darkslategray", honeydew, honeydew, "darkslategray"),
-	},
-	warning: {
-		light: createClickerStyles(honeydew, prussianblue, red, honeydew),
-		dark: createClickerStyles("darkslategray", honeydew, red, honeydew),
-	}
-})
-
 const SHeader = styled.header`
 	${headerStyles};
 	display: flex;
@@ -52,8 +40,18 @@ const SHeader = styled.header`
 			text-decoration: none;
 		}
 	}
-`;
+	`;
 
+const buttonStyles = theme.variants("mode", "variant", {
+	default: {
+		light: createClickerStyles(honeydew, prussianblue, prussianblue, honeydew),
+		dark: createClickerStyles("darkslategray", honeydew, honeydew, "darkslategray"),
+	},
+	warning: {
+		light: createClickerStyles(honeydew, prussianblue, red, honeydew),
+		dark: createClickerStyles("darkslategray", honeydew, red, honeydew),
+	}
+})
 const Button = styled.button`
 	${buttonStyles};
 	display: inline-block;
@@ -66,7 +64,6 @@ const Button = styled.button`
 	white-space: nowrap;
 	border: 0;
 `;
-
 Button.propTypes = {
 	variant: PropTypes.oneOf(["default", "warning"]),
 }
@@ -74,24 +71,22 @@ Button.defaultProps = {
 	variant: "default",
 }
 
-const Header = () => {
+const Header = (props) => {
 	const themeToggle = useTheme();
-
-	const logout = () => {
-		axiosWithAuth().post("http://localhost:5000/api/logout")
-		window.localStorage.removeItem("token");
-	}
 
 	return (
 		<SHeader>
 			<h1>Friends</h1>
 			<nav>
-				<Link to="/login">Login</Link>
-				<Link to="/friends">Friends List</Link>
-			</nav>
-			<nav>
-				<Button variant="warning" onClick={logout}>Logout</Button>
-				<Button onClick={() => themeToggle.toggle()}>Toggle Mode!</Button>
+				{
+					props.isTokenSet
+						?
+						<>
+							<Button variant="warning" onClick={props.logout}>Log out</Button>
+						</>
+						: <Link to="/login">LOG IN</Link>
+				}
+				<Button className="toggle-mode" onClick={() => themeToggle.toggle()}>Toggle Mode!</Button>
 			</nav>
 		</SHeader>
 	)

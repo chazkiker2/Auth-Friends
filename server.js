@@ -53,7 +53,8 @@ app.use(cors());
 
 function authenticator(req, res, next) {
 	const { authorization } = req.headers;
-	if (authorization === token) {
+	const parsedAuth = JSON.parse(authorization);
+	if (parsedAuth === token || authorization === token) {
 		next();
 	} else {
 		res.status(403).json({ error: 'User must be logged in to do that.' });
@@ -87,7 +88,6 @@ app.get('/api/friends', authenticator, (req, res) => {
 
 app.get('/api/friends/:id', authenticator, (req, res) => {
 	const friend = friends.find(f => f.id == req.params.id);
-
 	if (friend) {
 		res.status(200).json(friend);
 	} else {

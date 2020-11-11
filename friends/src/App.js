@@ -1,15 +1,13 @@
 import React from "react";
-import { BrowserRouter as Router, Redirect, Route, Link, Switch } from 'react-router-dom';
-// import { axiosWithAuth } from "./utils/axiosWithAuth";
+import { Redirect, Route, Switch } from 'react-router-dom';
+import { useLogin } from "./contexts/LoginContext";
 import PrivateRoute from "./components/PrivateRoute";
-
 import Header from "./components/Header";
 import Login from "./components/Login";
 import FriendsList from "./components/FriendsList";
 import Friend from "./components/Friend";
 import AddFriendForm from "./components/AddFriendForm";
-import { theme } from "./theme/index";
-import styled, { ThemeProvider } from "styled-components";
+import styled from "styled-components";
 
 const AppContainer = styled.div`
 	min-height: 100vh;
@@ -17,13 +15,12 @@ const AppContainer = styled.div`
 	background-color: ${pr => pr.theme.honeydew};
 `;
 
-// <ThemeProvider theme={theme}>
-// </ThemeProvider>
 const App = (props) => {
+	const { logout, isTokenSet } = useLogin();
+
 	return (
-		<Router>
 			<AppContainer className="App">
-				<Header />
+				<Header logout={logout} isTokenSet={isTokenSet} />
 				<Switch>
 					<Route exact path="/">
 						<Redirect to="/login" />
@@ -36,7 +33,7 @@ const App = (props) => {
 					<PrivateRoute path="/add-friend" component={AddFriendForm} />
 				</Switch>
 			</AppContainer>
-		</Router>
+
 	);
 }
 

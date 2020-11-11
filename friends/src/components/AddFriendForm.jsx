@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { axiosWithAuth } from "../utils/axiosWithAuth";
 import styled from "styled-components";
 import theme from "styled-theming";
+import { useLogin } from "../contexts/LoginContext";
 import { createClickerStyles, createBackgroundStyles, colorSelection } from "../theme/theme";
 
 const { honeydew, powderblue, celadonblue, prussianblue } = colorSelection;
@@ -49,6 +50,7 @@ const SLogin = styled.div`
 		button {
 			${buttonStyles};
 			display: inline-block;
+			margin: 0 1rem;
 			border: 0;
 			width: 120px;
 			height: 25px;
@@ -60,6 +62,7 @@ const SLogin = styled.div`
 `;
 
 const AddFriendForm = () => {
+	const { pushToFriends } = useLogin();
 	const [input, setInput] = useState({ name: "", email: "", age: "" });
 
 	const handleChange = (evt) => {
@@ -71,7 +74,13 @@ const AddFriendForm = () => {
 
 	const handleSubmit = (evt) => {
 		evt.preventDefault();
-		axiosWithAuth().post("http://localhost:5000/api/friends", input);
+		axiosWithAuth().post("friends", input);
+		pushToFriends();
+	}
+
+	const handleCancel = (evt) => {
+		evt.preventDefault();
+		pushToFriends();
 	}
 
 
@@ -90,7 +99,10 @@ const AddFriendForm = () => {
 					<input type="number" id="age" name="age" value={input.age} onChange={handleChange} />
 					</label>
 				</div>
-				<button>Add</button>
+				<div>
+					<button>Add</button>
+					<button onClick={handleCancel}>Cancel</button>
+				</div>
 			</form>
 		</SLogin>
 	);

@@ -21,10 +21,7 @@ export const buttonTextColor = theme('mode', {
 	dark: '#222'
 });
 
-// export const createClickerStyles = (background, color, { backgroundHover, colorHover } = {}) => {
 export const createClickerStyles = (background, color, backgroundHover, colorHover) => {
-	// let backgroundOnHover = backgroundHover ? backgroundHover : color;
-	// let colorOnHover = colorHover ? colorHover : background;
 	const colors = {
 		background,
 		color,
@@ -33,16 +30,16 @@ export const createClickerStyles = (background, color, backgroundHover, colorHov
 	};
 
 	return css`
-			background-color: ${colors.background};
-			color: ${colors.color};
+		background-color: ${colors.background};
+		color: ${colors.color};
+		transition: all 0.4s ease;
+		&:hover {
+			cursor: pointer;
+			background-color: ${colors.backgroundHover};
+			color: ${colors.colorHover};
 			transition: all 0.4s ease;
-			&:hover {
-				cursor: pointer;
-				background-color: ${colors.backgroundHover};
-				color: ${colors.colorHover};
-				transition: all 0.4s ease;
-			}
-		`;
+		}
+	`;
 }
 
 export const createBackgroundStyles = (lightBackground, lightColor, darkBackground, darkColor) => {
@@ -72,6 +69,9 @@ const mainTheme = {
 	textColor,
 	buttonBackgroundColor,
 	buttonTextColor,
+	createClickerStyles,
+	createBackgroundStyles,
+	colorSelection,
 }
 
 export default mainTheme;

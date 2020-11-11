@@ -1,14 +1,16 @@
+//dependencies
 import React, { useState } from "react";
-import { axiosWithAuth } from "../utils/axiosWithAuth";
 import { useHistory } from "react-router-dom";
+//context
+import { useLogin } from "../contexts/LoginContext";
+//styling dependencies
 import styled from "styled-components";
 import theme from "styled-theming";
 import { createClickerStyles, createBackgroundStyles, colorSelection } from "../theme/theme";
-
 const { honeydew, powderblue, celadonblue, prussianblue } = colorSelection;
 
+//styling
 const loginStyles = theme("mode", createBackgroundStyles(powderblue, prussianblue, "darkslategray", honeydew));
-
 const buttonStyles = theme("mode", {
 	light: createClickerStyles(honeydew, prussianblue, celadonblue, honeydew),
 	dark: createClickerStyles("black", honeydew, celadonblue, honeydew),
@@ -43,14 +45,12 @@ const SLogin = styled.div`
 const Login = props => {
 	const [credentials, setCredentials] = useState({ username: "", password: "" });
 	const history = useHistory();
+	const { login } = useLogin();
 
-	const login = (e) => {
+	const handleSubmit = (e) => {
 		e.preventDefault();
-		axiosWithAuth().post("http://localhost:5000/api/login", credentials)
-			.then(res => {
-				window.localStorage.setItem("token", res.data.payload);
-				history.push("/friends");
-			});
+		login(credentials);
+		history.push("/friends");
 	}
 
 	const handleChange = e => {
@@ -62,7 +62,7 @@ const Login = props => {
 
 	return (
 		<SLogin>
-			<form onSubmit={login}>
+			<form onSubmit={handleSubmit}>
 				<label htmlFor="username">Username:
 					<input type="text" id="username" name="username" value={credentials.username} onChange={handleChange} />
 				</label>
